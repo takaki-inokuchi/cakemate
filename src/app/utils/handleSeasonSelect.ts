@@ -1,11 +1,10 @@
-import { MenuStage } from "../page";
+import { MenuStage, IngredientsData } from "../page";
 
 interface HandleSeasonSelectParams {
   season: string;
   setSelectedSeason: (season: string) => void;
   setMenuStage: React.Dispatch<React.SetStateAction<MenuStage>>;
-  setIngredients: (ings: string[]) => void;
-  setLoading: (loading: boolean) => void;
+  setIngredients: (ings: IngredientsData) => void;
 }
 
 export const handleSeasonSelect = async ({
@@ -13,22 +12,30 @@ export const handleSeasonSelect = async ({
   setSelectedSeason,
   setMenuStage,
   setIngredients,
-  setLoading,
 }: HandleSeasonSelectParams) => {
   setSelectedSeason(season);
-  setLoading(true);
+  setMenuStage("loading");
 
   try {
     const response = await fetch("/api/getIngredients", {
       method: "POST",
-      body: JSON.stringify({ season, stage: "ingredients" }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ season }),
     });
-    const data = await response.json();
-    setIngredients(data.ingredients);
+    const data: IngredientsData = await response.json();
+
+    setIngredients(data);
     setMenuStage("ingredients");
   } catch (err) {
     console.error(err);
-  } finally {
-    setLoading(false);
+    setMenuStage("ingredients");
+
+    // 空の IngredientsData をセット
+    setIngredients({
+      sponge: [],
+      toppings: [],
+      cream: [],
+      piping: [],
+    });
   }
 };

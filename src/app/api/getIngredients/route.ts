@@ -5,7 +5,7 @@ import OpenAI from "openai";
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function POST(req: NextRequest) {
-  const { season, stage } = await req.json();
+  const { season } = await req.json();
 
   try {
     const completion = await openai.chat.completions.create({
@@ -16,22 +16,47 @@ export async function POST(req: NextRequest) {
           content: `
 あなたはパティシエAIです。
 「${season}」の季節にぴったりのケーキを作ります。
-次のカテゴリ「${stage}」に合うおすすめの候補を5つ、日本語で出してください。
-出力は**必ず**次のJSON形式で返してください。
+
+次のカテゴリごとに候補を出してください。
+- スポンジ: 5種類
+- トッピング: 5種類
+- クリーム: 5種類
+- 絞り方: 5種類
+
+出力は**必ずJSON形式**で返してください。例：
+{
+  "sponge": ["スポンジ1", "スポンジ2", "スポンジ3", "スポンジ4", "スポンジ5"],
+  "toppings": ["トッピング1", "トッピング2", "トッピング3"],
+  "cream": ["クリーム1", "クリーム2", "クリーム3", "クリーム4", "クリーム5"],
+  "piping": ["絞り方1", "絞り方2", "絞り方3", "絞り方4", "絞り方5"]
+}
 `,
         },
       ],
     });
 
     const text = completion.choices[0].message?.content || "";
-    const match = text.match(/\{[\s\S]*\}/);
-    const json = match ? JSON.parse(match[0]) : { ingredients: [] };
+    let jsonData;
+    try {
+      jsonData = JSON.parse(text);
+    } catch {
+      // もしJSONパースできなければ空の構造を返す
+      jsonData = {
+        sponge: [],
+        toppings: [],
+        cream: [],
+        piping: [],
+      };
+    }
 
-    return NextResponse.json(json);
+    return NextResponse.json(jsonData);
   } catch (err) {
     console.error(err);
     return NextResponse.json({
-      ingredients: [],
+      sponge: [],
+      toppings: [],
+      cream: [],
+      piping: [],
       error: "AIからデータを取得できませんでした。",
     });
   }
