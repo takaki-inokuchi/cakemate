@@ -1,7 +1,41 @@
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+// Flux API 用の進捗確認関数
+async function waitForFluxImage(
+  taskId: string,
+  apiKey: string,
+  maxRetries = 20,
+  interval = 2000
+) {
+  for (let i = 0; i < maxRetries; i++) {
+    const res = await fetch(`https://api.segmind.com/v1/tasks/${taskId}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "x-api-key": apiKey,
+      },
+    });
 
+    const data = await res.json();
+
+    // 完了時に画像URLを返す
+    if (data.status === "completed" && data.result?.length > 0) {
+      return data.result[0].url;
+    }
+
+    // 失敗時
+    if (data.status === "failed") {
+      throw new Error("Flux image generation failed");
+    }
+
+    // 待機
+    await new Promise((resolve) => setTimeout(resolve, interval));
+  }
+
+  throw new Error("Flux image generation timed out");
+}
+
+export const POST = async (req: Request) => {
   try {
     const { prompt } = await req.json();
 
@@ -12,36 +46,60 @@ export async function POST(req: Request) {
       );
     }
 
-    const res = await fetch("https://api.deepai.org/api/text2img", {
-      method: "POST",
-      headers: {
-        "Api-Key": process.env.DEEPAI_API_KEY || "",
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({ text: prompt }),
-    });
-
-    if (!res.ok) {
-      const text = await res.text();
-      console.error("DeepAI API Error:", text);
-      return NextResponse.json({ error: "DeepAI API Error" }, { status: 500 });
-    }
-    const data = await res.json();
-    console.log(data);
-
-    if (!data.output_url) {
+    const apiKey = process.env.FLUX_API_KEY;
+    if (!apiKey) {
       return NextResponse.json(
-        { error: "Failed to generate image" },
+        { error: "Flux API key not set" },
         { status: 500 }
       );
     }
 
-    return NextResponse.json({ imageUrl: data.output_url });
-  } catch (err) {
+    console.log("Flux 画像作成中");
+
+    // タスク作成
+    const taskRes = await fetch("https://api.segmind.com/v1/flux-dev", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "x-api-key": apiKey,
+      },
+      body: JSON.stringify({
+        prompt,
+        width: 512,
+        height: 512,
+        samples: 1,
+      }),
+    });
+
+    if (!taskRes.ok) {
+      const text = await taskRes.text();
+      console.error("Flux API Error (task creation):", text);
+      return NextResponse.json(
+        { error: "Flux API task creation failed" },
+        { status: 500 }
+      );
+    }
+
+    const taskData = await taskRes.json();
+    const taskId = taskData?.id || taskData?.task_id;
+
+    if (!taskId) {
+      return NextResponse.json(
+        { error: "No task ID returned by Flux API" },
+        { status: 500 }
+      );
+    }
+
+    // タスク完了まで待機
+    const imageUrl = await waitForFluxImage(taskId, apiKey);
+
+    return NextResponse.json({ imageUrl });
+  } catch (err: any) {
     console.error(err);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { error: err.message || "Internal Server Error" },
       { status: 500 }
     );
   }
-}
+};

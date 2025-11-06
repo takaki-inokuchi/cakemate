@@ -69,7 +69,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex justify-center h-screen overflow-hidden items-center ">
+    <div className="flex justify-center h-screen items-center ">
       {!showMeue ? (
         <div>
           <button
