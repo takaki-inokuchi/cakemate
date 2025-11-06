@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { handleSeasonSelect } from "./utils/handleSeasonSelect";
 import { seasonImage } from "./utils/seasonImage";
+import Startform from "./componets/Startform";
 
 export type MenuStage =
   | "main"
@@ -11,7 +12,10 @@ export type MenuStage =
   | "loading"
   | "cakeImage"
   | "theme"
-  | "original";
+  | "original"
+  | "worldview"
+  | "event"
+  | "color";
 
 export interface IngredientsData {
   sponge: string[];
@@ -35,6 +39,7 @@ export default function Home() {
   }); // AIから取得した具材一覧
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]); // 選択済み具材
   const [cakeImage, setCakeImage] = useState<string | null>(null); // 生成されたケーキ画像
+  const [color, setColor] = useState("");
 
   const toggleIngredient = (ing: string) => {
     if (selectedIngredients.includes(ing)) {
@@ -49,14 +54,7 @@ export default function Home() {
   return (
     <div className="flex justify-center h-screen items-center ">
       {!showMeue ? (
-        <div className="overflow-hidden">
-          <button
-            onClick={() => setShowMeue(true)}
-            className="cursor-pointer text-white bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 p-4 text-2xl rounded-full hover:from-amber-700 hover:via-amber-700 hover:to-amber-700"
-          >
-            ケーキを作成🎂
-          </button>
-        </div>
+        <Startform onClick={() => setShowMeue(true)} />
       ) : (
         //-----------------------
         //       一覧ページ
@@ -182,15 +180,40 @@ export default function Home() {
             //テーマページ
             //-----------------------
             <div className="flex flex-col gap-10">
-              <button className="p-4 text-2xl rounded-full cursor-pointer text-white bg-gradient-to-r from-pink-400 via-red-400 to-red-400 hover:from-pink-600 hover:via-red-600 hover:to-red-600">
+              <button
+                onClick={() => setMenuStage("color")}
+                className="p-4 text-2xl rounded-full cursor-pointer text-white bg-gradient-to-r from-pink-400 via-red-400 to-red-400 hover:from-pink-600 hover:via-red-600 hover:to-red-600"
+              >
                 色で決める
               </button>
-              <button className="p-4 text-2xl rounded-full cursor-pointer text-white bg-gradient-to-r from-green-400 via-blue-400 to-blue-400 hover:from-green-600 hover:via-blue-600 hover:to-blue-600">
+              <button
+                onClick={() => setMenuStage("worldview")}
+                className="p-4 text-2xl rounded-full cursor-pointer text-white bg-gradient-to-r from-green-400 via-blue-400 to-blue-400 hover:from-green-600 hover:via-blue-600 hover:to-blue-600"
+              >
                 世界観で決める
               </button>
-              <button className="p-4 text-2xl rounded-full cursor-pointer text-white bg-gradient-to-r from-orange-400 via-yellow-400 to-yellow-400 hover:from-orange-600 hover:via-yellow-600 hover:to-yellow-600">
+              <button
+                onClick={() => setMenuStage("event")}
+                className="p-4 text-2xl rounded-full cursor-pointer text-white bg-gradient-to-r from-orange-400 via-yellow-400 to-yellow-400 hover:from-orange-600 hover:via-yellow-600 hover:to-yellow-600"
+              >
                 イベントで決める
               </button>
+            </div>
+          )}
+
+          {menuStage === "color" && (
+            <div className="flex flex-col gap-2 p-4 bg-white rounded-2xl shadow-sm">
+              <label className="text-sm font-medium text-gray-700">
+                作成したいケーキの色を指定してください
+              </label>
+
+              <input
+                type="text"
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
+                placeholder="例：ピンク、チョコブラウン、抹茶グリーン"
+                className="w-full px-3 py-2 text-gray-800 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
+              />
             </div>
           )}
 
