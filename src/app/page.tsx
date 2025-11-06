@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import { handleSeasonSelect } from "./utils/handleSeasonSelect";
+import { seasonImage } from "./utils/seasonImage";
 
 export type MenuStage =
   | "main"
   | "season"
   | "ingredients"
   | "loading"
-  | "cakeImage";
+  | "cakeImage"
+  | "theme"
+  | "original";
 
 export interface IngredientsData {
   sponge: string[];
@@ -43,35 +46,10 @@ export default function Home() {
     }
   };
 
-  const generateCakeImage = async () => {
-    if (!selectedSeason) return;
-    if (selectedIngredients.length === 0) return alert("具材を選んでください");
-
-    setMenuStage("loading");
-
-    const prompt = `${selectedSeason}のケーキで、${selectedIngredients.join(
-      "と"
-    )}をトッピングしたリアルなケーキ画像。`;
-
-    try {
-      const response = await fetch("/api/generateImage", {
-        method: "POST",
-        body: JSON.stringify({ prompt }),
-      });
-
-      const data = await response.json();
-      setCakeImage(data.url);
-      setMenuStage("cakeImage");
-    } catch (err) {
-      console.error(err);
-      setMenuStage("cakeImage");
-    }
-  };
-
   return (
     <div className="flex justify-center h-screen items-center ">
       {!showMeue ? (
-        <div>
+        <div className="overflow-hidden">
           <button
             onClick={() => setShowMeue(true)}
             className="cursor-pointer text-white bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 p-4 text-2xl rounded-full hover:from-amber-700 hover:via-amber-700 hover:to-amber-700"
@@ -80,7 +58,11 @@ export default function Home() {
           </button>
         </div>
       ) : (
-        <div className="flex flex-col items-center gap-10">
+        //-----------------------
+        //       一覧ページ
+        //-----------------------
+
+        <div className="flex flex-col items-center gap-10 overflow-hidden">
           {menuStage === "main" && (
             <div className="flex flex-col gap-10">
               <button
@@ -90,18 +72,28 @@ export default function Home() {
                 季節に応じたケーキを作成
               </button>
 
-              <button className="cursor-pointer text-white bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 p-4 text-2xl rounded-full hover:from-amber-700 hover:via-amber-700 hover:to-amber-700">
+              <button
+                onClick={() => setMenuStage("theme")}
+                className="cursor-pointer text-white bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 p-4 text-2xl rounded-full hover:from-amber-700 hover:via-amber-700 hover:to-amber-700"
+              >
                 テーマに応じたケーキを作成
               </button>
 
-              <button className="cursor-pointer text-white bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 p-4 text-2xl rounded-full hover:from-amber-700 hover:via-amber-700 hover:to-amber-700">
+              <button
+                onClick={() => setMenuStage("original")}
+                className="cursor-pointer text-white bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 p-4 text-2xl rounded-full hover:from-amber-700 hover:via-amber-700 hover:to-amber-700"
+              >
                 オリジナルケーキを作成
               </button>
             </div>
           )}
 
           {menuStage === "season" && (
-            <div className="flex flex-col gap-4">
+            //-----------------------
+            //シーズンページ
+            //-----------------------
+
+            <div className="flex flex-col gap-10 overflow-hidden">
               {[
                 {
                   name: "春",
@@ -145,7 +137,6 @@ export default function Home() {
               ))}
             </div>
           )}
-
           {menuStage === "ingredients" && (
             <div className="flex flex-col gap-4 w-full">
               {categories.map((category) => (
@@ -170,12 +161,35 @@ export default function Home() {
                 </div>
               ))}
 
-              {/* ここに画像作成ボタンを追加 */}
               <button
-                onClick={generateCakeImage}
+                onClick={() =>
+                  seasonImage({
+                    selectedSeason,
+                    selectedIngredients,
+                    setMenuStage,
+                    setCakeImage,
+                  })
+                }
                 className="mt-4 p-4 text-xl rounded-full text-white bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 hover:from-purple-600 hover:via-pink-600 hover:to-red-600"
               >
                 ケーキ画像を作成
+              </button>
+            </div>
+          )}
+
+          {menuStage === "theme" && (
+            //-----------------------
+            //テーマページ
+            //-----------------------
+            <div className="flex flex-col gap-10">
+              <button className="p-4 text-2xl rounded-full cursor-pointer text-white bg-gradient-to-r from-pink-400 via-red-400 to-red-400 hover:from-pink-600 hover:via-red-600 hover:to-red-600">
+                色で決める
+              </button>
+              <button className="p-4 text-2xl rounded-full cursor-pointer text-white bg-gradient-to-r from-green-400 via-blue-400 to-blue-400 hover:from-green-600 hover:via-blue-600 hover:to-blue-600">
+                世界観で決める
+              </button>
+              <button className="p-4 text-2xl rounded-full cursor-pointer text-white bg-gradient-to-r from-orange-400 via-yellow-400 to-yellow-400 hover:from-orange-600 hover:via-yellow-600 hover:to-yellow-600">
+                イベントで決める
               </button>
             </div>
           )}
@@ -198,14 +212,12 @@ export default function Home() {
               </button>
             </div>
           )}
-
           {menuStage === "loading" && (
             <div className="flex flex-col items-center mt-8">
               <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-amber-500 border-solid"></div>
               <p className="mt-4 text-lg text-gray-700">読み込み中...</p>
             </div>
           )}
-
           <button
             onClick={() => {
               if (menuStage === "season") {
