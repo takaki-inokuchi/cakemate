@@ -22,7 +22,7 @@ export const seasonImage = async ({
 
   const prompt = `${selectedSeason}のケーキで、${selectedIngredients.join(
     "と"
-  )}をトッピングしたリアルなケーキ画像。`;
+  )}をトッピングした、ホールケーキを作成して。🎂`;
 
   try {
     const response = await fetch("/api/generateImage", {
@@ -31,7 +31,7 @@ export const seasonImage = async ({
     });
 
     const data = await response.json();
-    setCakeImage(data.url);
+    setCakeImage(data.imageUrl);
     setMenuStage("cakeImage");
   } catch (err) {
     console.error(err);
