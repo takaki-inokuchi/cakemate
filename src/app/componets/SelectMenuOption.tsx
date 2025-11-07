@@ -1,6 +1,6 @@
 "use client";
 import UseMenu from "../context/MenuProvider";
-import { MenuStage } from "../page";
+import { MenuStage } from "../type/type";
 import Cakemenubutton from "./Cakemenubutton";
 
 const MenuOption = () => {

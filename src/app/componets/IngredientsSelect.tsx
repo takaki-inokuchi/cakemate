@@ -13,6 +13,7 @@ const IngredientsSelect = () => {
     selectedSeason,
     setMenuStage,
     setCakeImage,
+    color,
   } = UseMenu();
   const toggleIngredient = (ing: string) => {
     if (selectedIngredients.includes(ing)) {
@@ -54,6 +55,7 @@ const IngredientsSelect = () => {
             selectedIngredients,
             setMenuStage,
             setCakeImage,
+            color,
           })
         }
         className="mt-4 p-4 text-xl rounded-full text-white bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 hover:from-purple-600 hover:via-pink-600 hover:to-red-600"

@@ -1,9 +1,9 @@
 "use client";
 import UseMenu from "../context/MenuProvider";
-
+import { handleColorSelect } from "../utils/handleColorSelect";
 
 const ColorSelect = () => {
-const { color, setColor } = UseMenu();
+  const { color, setColor, setMenuStage, setIngredients } = UseMenu();
 
   return (
     <div className="flex flex-col gap-2 p-4 bg-white rounded-2xl shadow-sm">
@@ -18,6 +18,13 @@ const { color, setColor } = UseMenu();
         placeholder="例：ピンク、チョコブラウン、抹茶グリーン"
         className="w-full px-3 py-2 text-gray-800 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 transition"
       />
+      <button
+        onClick={() =>
+          handleColorSelect({ setMenuStage, color, setIngredients })
+        }
+      >
+        決定
+      </button>
     </div>
   );
 };

@@ -1,16 +1,18 @@
 import { Dispatch, SetStateAction } from "react";
-import { MenuStage } from "../page";
+import { MenuStage } from "../type/type";
 
 export const seasonImage = async ({
   selectedSeason,
   selectedIngredients,
   setMenuStage,
   setCakeImage,
+  color,
 }: {
-  selectedSeason: string | null;
+  selectedSeason?: string | null;
   selectedIngredients: string[];
   setMenuStage: Dispatch<SetStateAction<MenuStage>>;
   setCakeImage: (url: string | null) => void;
+  color?: string;
 }) => {
   if (!selectedSeason) return;
   if (selectedIngredients.length === 0) {
@@ -20,7 +22,7 @@ export const seasonImage = async ({
 
   setMenuStage("loading");
 
-  const prompt = `${selectedSeason}のケーキで、${selectedIngredients.join(
+  const prompt = `${selectedSeason}${color}のケーキで、${selectedIngredients.join(
     "と"
   )}をトッピングした、ホールケーキを作成して。🎂`;
 

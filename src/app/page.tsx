@@ -8,28 +8,12 @@ import IngredientsSelect from "./componets/IngredientsSelect";
 import SelectThemebutton from "./componets/SelectThemebutton";
 import ColorSelect from "./componets/ColorSelect";
 import ImageResults from "./componets/ImageResults";
-
-export type MenuStage =
-  | "main"
-  | "season"
-  | "ingredients"
-  | "loading"
-  | "cakeImage"
-  | "theme"
-  | "original"
-  | "worldview"
-  | "event"
-  | "color";
-
-export interface IngredientsData {
-  sponge: string[];
-  toppings: string[];
-  cream: string[];
-  piping: string[];
-}
+import Deletebutton from "./componets/Deletebutton";
+import Loading from "./componets/Loading";
+import Error from "./componets/Error";
 
 export default function Home() {
-  const { menuStage, setMenuStage, showMeue, setShowMeue } = UseMenu();
+  const { menuStage, showMeue, setShowMeue } = UseMenu();
 
   return (
     <div className="flex justify-center h-screen items-center overflow-hidden">
@@ -49,29 +33,11 @@ export default function Home() {
 
           {menuStage === "cakeImage" && <ImageResults />}
 
-          {menuStage === "loading" && (
-            <div className="flex flex-col items-center mt-8">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-amber-500 border-solid"></div>
-              <p className="mt-4 text-lg text-gray-700">読み込み中...</p>
-            </div>
-          )}
-          <button
-            onClick={() => {
-              if (
-                menuStage === "season" ||
-                menuStage === "theme" ||
-                menuStage === "original"
-              ) {
-                setMenuStage("main");
-              } else {
-                setShowMeue(false);
-                setMenuStage("main");
-              }
-            }}
-            className="fixed bottom-4 right-4 cursor-pointer text-white bg-gray-600 p-3 rounded-full hover:bg-gray-700"
-          >
-            戻る
-          </button>
+          {menuStage === "loading" && <Loading />}
+
+          {menuStage === "error" && <Error />}
+
+          <Deletebutton />
         </div>
       )}
     </div>

@@ -8,7 +8,7 @@ import {
   useContext,
   useState,
 } from "react";
-import { IngredientsData, MenuStage } from "../page";
+import { IngredientsData, MenuStage } from "../type/type";
 
 interface MenuContextType {
   menuStage: MenuStage;
