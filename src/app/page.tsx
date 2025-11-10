@@ -14,6 +14,7 @@ import Error from "./componets/Error";
 import WorldSelect from "./componets/WorldSelect";
 import EventSelect from "./componets/EventSelect";
 import OriginalSelect from "./componets/OriginalSelect";
+import Retry from "./componets/Retry";
 
 export default function Home() {
   const { menuStage, showMeue, setShowMeue } = UseMenu();
@@ -43,6 +44,8 @@ export default function Home() {
           {menuStage === "original" && <OriginalSelect />}
 
           {menuStage === "event" && <EventSelect />}
+
+          {menuStage === "retry" && <Retry />}
 
           {menuStage === "error" && <Error />}
 

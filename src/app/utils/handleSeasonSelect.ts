@@ -27,14 +27,21 @@ export const handleSeasonSelect = async ({
 
     const isEmpty =
       !data ||
-      !data.sponge?.length ||
-      !data.toppings?.length ||
-      !data.cream?.length ||
-      !data.piping?.length;
+      (!data.sponge?.length &&
+        !data.toppings?.length &&
+        !data.cream?.length &&
+        !data.piping?.length);
 
-    if (isEmpty) {
-      throw new Error("取得したデータが空です");
-    }
+     if (isEmpty) {
+    setMenuStage("retry");
+    setIngredients({
+      sponge: [],
+      toppings: [],
+      cream: [],
+      piping: [],
+    });
+    return;
+  }
 
     setIngredients(data);
     setMenuStage("ingredients");
@@ -42,7 +49,6 @@ export const handleSeasonSelect = async ({
     console.error(err);
     setMenuStage("error");
 
-    // 空の IngredientsData をセット
     setIngredients({
       sponge: [],
       toppings: [],

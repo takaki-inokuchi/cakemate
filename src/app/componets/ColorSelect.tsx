@@ -22,6 +22,7 @@ const ColorSelect = () => {
         onClick={() =>
           handleColorSelect({ setMenuStage, color, setIngredients })
         }
+        className="cursor-pointer rounded-full bg-gradient-to-r bg-gradient-to-r from-pink-400 via-red-400 to-red-400 hover:from-pink-600 hover:via-red-600 hover:to-red-600"
       >
         決定
       </button>

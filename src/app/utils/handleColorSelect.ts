@@ -28,7 +28,6 @@ export const handleColorSelect = async ({
     console.error(err);
     setMenuStage("error");
 
-    // 空の IngredientsData をセット
     setIngredients({
       sponge: [],
       toppings: [],

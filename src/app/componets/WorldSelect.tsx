@@ -21,6 +21,7 @@ const WorldSelect = () => {
         onClick={() =>
           handleWorldSelect({ setMenuStage, world, setIngredients })
         }
+        className="cursor-pointer rounded-full bg-gradient-to-r from-green-400 via-blue-400 to-blue-400 hover:from-green-600 hover:via-blue-600 hover:to-blue-600"
       >
         決定
       </button>

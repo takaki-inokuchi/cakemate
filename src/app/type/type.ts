@@ -11,7 +11,8 @@ export type MenuStage =
   | "color"
   | "error"
   | "world"
-  | "event";
+  | "event"
+  | "retry";
 
 export interface IngredientsData {
   sponge: string[];
