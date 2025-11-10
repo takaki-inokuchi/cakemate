@@ -23,7 +23,7 @@ const Deletebutton = () => {
           setMenuStage("main");
         }
       }}
-      className="fixed bottom-4 right-4 cursor-pointer text-white bg-gray-600 p-3 rounded-full hover:bg-gray-700"
+      className="fixed bottom-15 right-4 cursor-pointer text-white bg-gray-600 p-3 rounded-full hover:bg-gray-700"
     >
       戻る
     </button>

@@ -20,7 +20,7 @@ export default function Home() {
   const { menuStage, showMeue, setShowMeue } = UseMenu();
 
   return (
-    <div className="flex justify-center h-screen items-center overflow-hidden">
+    <div className="flex justify-center h-screen items-center overflow-hidden ">
       {!showMeue ? (
         <Startform onClick={() => setShowMeue(true)} />
       ) : (
