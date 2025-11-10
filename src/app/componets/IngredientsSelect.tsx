@@ -1,11 +1,14 @@
-"use client";
-
 import UseMenu from "../context/MenuProvider";
+import { IngredientsData } from "../type/type";
 import { seasonImage } from "../utils/seasonImage";
 
 const IngredientsSelect = () => {
-  const categories = ["sponge", "toppings", "cream", "piping"] as const;
-  //const categories: readonly ["sponge", "toppings", "cream", "piping"]と推論する
+  const categories: (keyof IngredientsData)[] = [
+    "sponge",
+    "toppings",
+    "cream",
+    "piping",
+  ];
   const {
     selectedIngredients,
     setSelectedIngredients,
@@ -15,15 +18,17 @@ const IngredientsSelect = () => {
     setCakeImage,
     color,
   } = UseMenu();
-  const toggleIngredient = (ing: string) => {
-    if (selectedIngredients.includes(ing)) {
-      // 選択済みなら解除
-      setSelectedIngredients(selectedIngredients.filter((i) => i !== ing));
-    } else {
-      // 未選択なら追加
-      setSelectedIngredients([...selectedIngredients, ing]);
-    }
+
+  const toggleIngredient = (category: keyof IngredientsData, item: string) => {
+    setSelectedIngredients((prev) => {
+      const current = prev[category];
+      const updated = current.includes(item)
+        ? current.filter((i) => i !== item)
+        : [...current, item];
+      return { ...prev, [category]: updated };
+    });
   };
+
   return (
     <div className="flex flex-col gap-4 w-full overflow-hidden">
       {categories.map((category) => (
@@ -31,12 +36,12 @@ const IngredientsSelect = () => {
           <p className="font-semibold capitalize">{category}</p>
 
           <div className="grid grid-cols-5 gap-2">
-            {ingredients[category].map((item: string) => (
+            {ingredients[category].map((item) => (
               <button
                 key={item}
-                onClick={() => toggleIngredient(item)}
+                onClick={() => toggleIngredient(category, item)}
                 className={`p-2 border rounded ${
-                  selectedIngredients.includes(item)
+                  selectedIngredients[category].includes(item)
                     ? "bg-green-400 text-white"
                     : "bg-white"
                 }`}
@@ -65,5 +70,4 @@ const IngredientsSelect = () => {
     </div>
   );
 };
-
 export default IngredientsSelect;

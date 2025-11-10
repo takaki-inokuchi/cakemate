@@ -17,14 +17,18 @@ interface MenuContextType {
   setIngredients: Dispatch<SetStateAction<IngredientsData>>;
   selectedSeason: string | null;
   setSelectedSeason: Dispatch<SetStateAction<string | null>>;
-  selectedIngredients: string[];
-  setSelectedIngredients: Dispatch<SetStateAction<string[]>>;
+  selectedIngredients: IngredientsData;
+  setSelectedIngredients: Dispatch<SetStateAction<IngredientsData>>;
   showMeue: boolean;
   setShowMeue: Dispatch<SetStateAction<boolean>>;
   cakeImage: string | null;
   setCakeImage: Dispatch<SetStateAction<string | null>>;
   color: string;
   setColor: Dispatch<SetStateAction<string>>;
+  world: string;
+  setWorld: Dispatch<SetStateAction<string>>;
+  event: string;
+  setEvent: Dispatch<SetStateAction<string>>;
 }
 
 //Dispatch状態を更新する関数
@@ -34,17 +38,26 @@ const MenuContext = createContext<MenuContextType | undefined>(undefined);
 export const MenuProvider = ({ children }: { children: ReactNode }) => {
   const [menuStage, setMenuStage] = useState<MenuStage>("main");
   const [selectedSeason, setSelectedSeason] = useState<string | null>(null);
-  const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
-
-  const [showMeue, setShowMeue] = useState(false);
-  const [cakeImage, setCakeImage] = useState<string | null>(null);
-  const [color, setColor] = useState("");
+  const [selectedIngredients, setSelectedIngredients] =
+    useState<IngredientsData>({
+      sponge: [],
+      toppings: [],
+      cream: [],
+      piping: [],
+    });
   const [ingredients, setIngredients] = useState<IngredientsData>({
     sponge: [],
     toppings: [],
     cream: [],
     piping: [],
   }); // AIから取得した具材一覧
+
+  const [showMeue, setShowMeue] = useState(false);
+  const [cakeImage, setCakeImage] = useState<string | null>(null);
+  const [color, setColor] = useState("");
+
+  const [world, setWorld] = useState("");
+  const [event, setEvent] = useState("");
   return (
     <MenuContext.Provider
       value={{
@@ -62,6 +75,10 @@ export const MenuProvider = ({ children }: { children: ReactNode }) => {
         setCakeImage,
         color,
         setColor,
+        world,
+        setWorld,
+        event,
+        setEvent,
       }}
     >
       {children}

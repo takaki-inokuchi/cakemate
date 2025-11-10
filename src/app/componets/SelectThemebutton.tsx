@@ -12,7 +12,7 @@ const SelectThemebutton = () => {
         色で決める
       </button>
       <button
-        onClick={() => setMenuStage("worldview")}
+        onClick={() => setMenuStage("world")}
         className="p-4 text-2xl rounded-full cursor-pointer text-white bg-gradient-to-r from-green-400 via-blue-400 to-blue-400 hover:from-green-600 hover:via-blue-600 hover:to-blue-600"
       >
         世界観で決める

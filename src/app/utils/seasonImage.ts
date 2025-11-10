@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { MenuStage } from "../type/type";
+import { IngredientsData, MenuStage } from "../type/type";
 
 export const seasonImage = async ({
   selectedSeason,
@@ -7,24 +7,47 @@ export const seasonImage = async ({
   setMenuStage,
   setCakeImage,
   color,
+  event,
+  world,
 }: {
   selectedSeason?: string | null;
-  selectedIngredients: string[];
+  selectedIngredients: IngredientsData;
   setMenuStage: Dispatch<SetStateAction<MenuStage>>;
   setCakeImage: (url: string | null) => void;
   color?: string;
+  event?: string;
+  world?: string;
 }) => {
   if (!selectedSeason) return;
-  if (selectedIngredients.length === 0) {
+  
+  const isEmpty =
+    !selectedIngredients.sponge.length &&
+    !selectedIngredients.toppings.length &&
+    !selectedIngredients.cream.length &&
+    !selectedIngredients.piping.length;
+
+  if (isEmpty) {
     alert("具材を選んでください");
     return;
   }
 
   setMenuStage("loading");
 
-  const prompt = `${selectedSeason}${color}のケーキで、${selectedIngredients.join(
-    "と"
-  )}をトッピングした、ホールケーキを作成して。🎂`;
+  const prompt =
+    `${selectedSeason}${color}${event}${world}のケーキで、` +
+    (selectedIngredients.sponge.length
+      ? `スポンジ: ${selectedIngredients.sponge.join("、")}、`
+      : "") +
+    (selectedIngredients.cream.length
+      ? `クリーム: ${selectedIngredients.cream.join("、")}、`
+      : "") +
+    (selectedIngredients.toppings.length
+      ? `トッピング: ${selectedIngredients.toppings.join("、")}、`
+      : "") +
+    (selectedIngredients.piping.length
+      ? `絞り方: ${selectedIngredients.piping.join("、")}、`
+      : "") +
+    `を使ったホールケーキを作成して。🎂`;
 
   try {
     const response = await fetch("/api/generateImage", {

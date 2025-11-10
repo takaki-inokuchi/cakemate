@@ -9,7 +9,9 @@ export type MenuStage =
   | "worldview"
   | "event"
   | "color"
-  | "error";
+  | "error"
+  | "world"
+  | "event";
 
 export interface IngredientsData {
   sponge: string[];

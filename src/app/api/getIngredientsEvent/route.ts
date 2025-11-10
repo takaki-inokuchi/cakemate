@@ -1,11 +1,10 @@
-import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function POST(req: NextRequest) {
-  const { season } = await req.json();
+  const { event } = await req.json();
 
   try {
     const completion = await openai.chat.completions.create({
@@ -15,7 +14,7 @@ export async function POST(req: NextRequest) {
           role: "user",
           content: `
 あなたはパティシエAIです。
-「${season}」の季節にぴったりのケーキを作ります。
+「${event}」のケーキを作成します。
 
 次のカテゴリごとに候補を出してください。
 - スポンジ: 5種類
@@ -52,7 +51,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(jsonData);
   } catch (err) {
     console.error(err);
-    
     return NextResponse.json({
       sponge: [],
       toppings: [],

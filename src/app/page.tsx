@@ -11,6 +11,9 @@ import ImageResults from "./componets/ImageResults";
 import Deletebutton from "./componets/Deletebutton";
 import Loading from "./componets/Loading";
 import Error from "./componets/Error";
+import WorldSelect from "./componets/WorldSelect";
+import EventSelect from "./componets/EventSelect";
+import OriginalSelect from "./componets/OriginalSelect";
 
 export default function Home() {
   const { menuStage, showMeue, setShowMeue } = UseMenu();
@@ -33,7 +36,13 @@ export default function Home() {
 
           {menuStage === "cakeImage" && <ImageResults />}
 
+          {menuStage === "world" && <WorldSelect />}
+
           {menuStage === "loading" && <Loading />}
+
+          {menuStage === "original" && <OriginalSelect />}
+
+          {menuStage === "event" && <EventSelect />}
 
           {menuStage === "error" && <Error />}
 

@@ -12,6 +12,12 @@ const Deletebutton = () => {
           menuStage === "original"
         ) {
           setMenuStage("main");
+        } else if (
+          menuStage === "color" ||
+          menuStage === "world" ||
+          menuStage === "event"
+        ) {
+          setMenuStage("theme");
         } else {
           setShowMeue(false);
           setMenuStage("main");

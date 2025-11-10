@@ -4,7 +4,7 @@ import { IngredientsData, MenuStage } from "../type/type";
 interface HandleSeasonSelectParams {
   season: string;
   setSelectedSeason: (season: string) => void;
- setMenuStage: Dispatch<SetStateAction<MenuStage>>;
+  setMenuStage: Dispatch<SetStateAction<MenuStage>>;
   setIngredients: (ings: IngredientsData) => void;
 }
 
@@ -24,6 +24,17 @@ export const handleSeasonSelect = async ({
       body: JSON.stringify({ season }),
     });
     const data: IngredientsData = await response.json();
+
+    const isEmpty =
+      !data ||
+      !data.sponge?.length ||
+      !data.toppings?.length ||
+      !data.cream?.length ||
+      !data.piping?.length;
+
+    if (isEmpty) {
+      throw new Error("取得したデータが空です");
+    }
 
     setIngredients(data);
     setMenuStage("ingredients");
