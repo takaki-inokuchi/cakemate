@@ -15,7 +15,7 @@ jest.mock("../context/MenuProvider", () => ({
     setIngredients: mockSetIngredients,
   }),
 }));
-
+    
 jest.mock("../utils/handleColorSelect", () => ({
   handleColorSelect: (...args: any[]) => mockHnadleColorSelect(...args),
 }));

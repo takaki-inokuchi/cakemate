@@ -2,14 +2,13 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import Backbutton from "../components/Backbutton";
 
 const mockSetMenuStage = jest.fn();
-const mockSetShowMenu  = jest.fn();
+const mockSetShowMenu = jest.fn();
+const mockUseMenu = require("../context/MenuProvider").default;
 
 jest.mock("../context/MenuProvider", () => ({
   __esModule: true,
-  default:  jest.fn(),
+  default: jest.fn(),
 }));
-
-const mockUseMenu = require("../context/MenuProvider").default;
 
 describe("Backbutton", () => {
   beforeEach(() => {
