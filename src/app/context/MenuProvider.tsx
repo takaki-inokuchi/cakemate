@@ -19,8 +19,8 @@ interface MenuContextType {
   setSelectedSeason: Dispatch<SetStateAction<string | null>>;
   selectedIngredients: IngredientsData;
   setSelectedIngredients: Dispatch<SetStateAction<IngredientsData>>;
-  showMeue: boolean;
-  setShowMeue: Dispatch<SetStateAction<boolean>>;
+  showMenu: boolean;
+  setShowMenu: Dispatch<SetStateAction<boolean>>;
   cakeImage: string | null;
   setCakeImage: Dispatch<SetStateAction<string | null>>;
   color: string;
@@ -52,7 +52,7 @@ export const MenuProvider = ({ children }: { children: ReactNode }) => {
     piping: [],
   }); // AIから取得した具材一覧
 
-  const [showMeue, setShowMeue] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const [cakeImage, setCakeImage] = useState<string | null>(null);
   const [color, setColor] = useState("");
 
@@ -69,8 +69,8 @@ export const MenuProvider = ({ children }: { children: ReactNode }) => {
         setIngredients,
         selectedIngredients,
         setSelectedIngredients,
-        showMeue,
-        setShowMeue,
+        showMenu,
+        setShowMenu,
         cakeImage,
         setCakeImage,
         color,

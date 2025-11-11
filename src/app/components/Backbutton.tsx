@@ -1,7 +1,7 @@
 import UseMenu from "../context/MenuProvider";
 
-const Deletebutton = () => {
-  const { menuStage, setMenuStage, setShowMeue } = UseMenu();
+const Backbutton = () => {
+  const { menuStage, setMenuStage, setShowMenu } = UseMenu();
 
   return (
     <button
@@ -19,7 +19,7 @@ const Deletebutton = () => {
         ) {
           setMenuStage("theme");
         } else {
-          setShowMeue(false);
+          setShowMenu(false);
           setMenuStage("main");
         }
       }}
@@ -30,4 +30,4 @@ const Deletebutton = () => {
   );
 };
 
-export default Deletebutton;
+export default Backbutton;

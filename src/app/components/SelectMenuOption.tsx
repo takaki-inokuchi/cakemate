@@ -3,7 +3,7 @@ import UseMenu from "../context/MenuProvider";
 import { MenuStage } from "../type/type";
 import Cakemenubutton from "./Cakemenubutton";
 
-const MenuOption = () => {
+const SelectMenuOption = () => {
   const { setMenuStage } = UseMenu();
   const menuOptions = [
     { label: "季節に応じたケーキを作成", stage: "season" },
@@ -23,4 +23,4 @@ const MenuOption = () => {
   );
 };
 
-export default MenuOption;
+export default SelectMenuOption;

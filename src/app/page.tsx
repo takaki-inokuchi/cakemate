@@ -1,31 +1,31 @@
 "use client";
 
-import Startform from "./componets/Startform";
+import Startform from "./components/Startform";
 import UseMenu from "./context/MenuProvider";
-import MenuOption from "./componets/SelectMenuOption";
-import SelectSeasonbutton from "./componets/SelectSeasonbutton";
-import IngredientsSelect from "./componets/IngredientsSelect";
-import SelectThemebutton from "./componets/SelectThemebutton";
-import ColorSelect from "./componets/ColorSelect";
-import ImageResults from "./componets/ImageResults";
-import Deletebutton from "./componets/Deletebutton";
-import Loading from "./componets/Loading";
-import Error from "./componets/Error";
-import WorldSelect from "./componets/WorldSelect";
-import EventSelect from "./componets/EventSelect";
-import OriginalSelect from "./componets/OriginalSelect";
-import Retry from "./componets/Retry";
+import SelectMenuOption from "./components/SelectMenuOption";
+import SelectSeasonbutton from "./components/SelectSeasonbutton";
+import IngredientsSelect from "./components/IngredientsSelect";
+import SelectThemebutton from "./components/SelectThemebutton";
+import ColorSelect from "./components/ColorSelect";
+import ImageResults from "./components/ImageResults";
+import Backbutton from "./components/Backbutton";
+import Loading from "./components/Loading";
+import Error from "./components/Error";
+import WorldSelect from "./components/WorldSelect";
+import EventSelect from "./components/EventSelect";
+import OriginalSelect from "./components/OriginalSelect";
+import Retry from "./components/Retry";
 
 export default function Home() {
-  const { menuStage, showMeue, setShowMeue } = UseMenu();
+  const { menuStage, showMenu, setShowMenu } = UseMenu();
 
   return (
     <div className="flex justify-center h-screen items-center overflow-hidden ">
-      {!showMeue ? (
-        <Startform onClick={() => setShowMeue(true)} />
+      {!showMenu ? (
+        <Startform onClick={() => setShowMenu(true)} />
       ) : (
         <div className="flex flex-col items-center gap-10">
-          {menuStage === "main" && <MenuOption />}
+          {menuStage === "main" && <SelectMenuOption />}
 
           {menuStage === "season" && <SelectSeasonbutton />}
 
@@ -49,7 +49,7 @@ export default function Home() {
 
           {menuStage === "error" && <Error />}
 
-          <Deletebutton />
+          <Backbutton />
         </div>
       )}
     </div>
