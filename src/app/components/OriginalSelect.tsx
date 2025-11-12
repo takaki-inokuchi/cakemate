@@ -4,7 +4,7 @@ import { useState } from "react";
 import UseMenu from "../context/MenuProvider";
 import { OriginalImage } from "../utils/originalImage";
 
-const OriginalInput = () => {
+const OriginalSelect = () => {
   const [sponge, setSponge] = useState("");
   const [cream, setCream] = useState("");
   const [toppings, setToppings] = useState("");
@@ -83,4 +83,4 @@ const OriginalInput = () => {
   );
 };
 
-export default OriginalInput;
+export default OriginalSelect;

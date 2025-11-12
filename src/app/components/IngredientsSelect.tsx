@@ -39,7 +39,6 @@ const IngredientsSelect = () => {
       return;
     }
 
-    // 🟢 refに入っている「確実に最新の」データを渡す
     seasonImage({
       selectedSeason,
       selectedIngredients: ingredients,
@@ -51,7 +50,6 @@ const IngredientsSelect = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* 各カテゴリのボタン */}
       {Object.keys(ingredients).map((category) => (
         <div key={category}>
           <p className="font-semibold capitalize">{category}</p>
@@ -75,7 +73,6 @@ const IngredientsSelect = () => {
         </div>
       ))}
 
-      {/* 生成ボタン */}
       <button
         onClick={handleGenerate}
         className="mt-4 p-4 text-xl rounded-full text-white bg-gradient-to-r from-purple-500 via-pink-500 to-red-500"
