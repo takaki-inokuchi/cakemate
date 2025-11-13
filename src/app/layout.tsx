@@ -18,6 +18,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "cake mate",
   description: "ケーキ画像を自由に創作できるアプリです。",
+  icons: {
+    icon: "/siteImage1.png",
+    shortcut: "/siteImage1-32x32.png",
+    apple: "/siteImage1.png",
+  },
 };
 
 export default function RootLayout({
