@@ -49,4 +49,4 @@ cd cakemate
 
 ## アプリデモ
 
-![アプリデモ](./public/CakeMate.gif)
+![アプリデモ](./public/Cake.gif)
