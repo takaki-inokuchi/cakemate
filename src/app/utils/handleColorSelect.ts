@@ -2,8 +2,8 @@ import { Dispatch, SetStateAction } from "react";
 import { IngredientsData, MenuStage } from "../type/type";
 
 interface handleColorSelectprops {
-  setMenuStage: Dispatch<SetStateAction<MenuStage>>;
   color: string;
+  setMenuStage: Dispatch<SetStateAction<MenuStage>>;
   setIngredients: (ings: IngredientsData) => void;
 }
 
@@ -22,6 +22,24 @@ export const handleColorSelect = async ({
     });
     const data = await response.json();
 
+    const isEmpty =
+      !data ||
+      (!data.sponge?.length &&
+        !data.toppings?.length &&
+        !data.cream?.length &&
+        !data.piping?.length);
+
+    if (isEmpty) {
+      setMenuStage("retry");
+      setIngredients({
+        sponge: [],
+        toppings: [],
+        cream: [],
+        piping: [],
+      });
+      return;
+    }
+
     setIngredients(data);
     setMenuStage("ingredients");
   } catch (err) {
@@ -36,3 +54,4 @@ export const handleColorSelect = async ({
     });
   }
 };
+

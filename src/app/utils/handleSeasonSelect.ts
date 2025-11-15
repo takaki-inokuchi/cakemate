@@ -32,16 +32,16 @@ export const handleSeasonSelect = async ({
         !data.cream?.length &&
         !data.piping?.length);
 
-     if (isEmpty) {
-    setMenuStage("retry");
-    setIngredients({
-      sponge: [],
-      toppings: [],
-      cream: [],
-      piping: [],
-    });
-    return;
-  }
+    if (isEmpty) {
+      setMenuStage("retry");
+      setIngredients({
+        sponge: [],
+        toppings: [],
+        cream: [],
+        piping: [],
+      });
+      return;
+    }
 
     setIngredients(data);
     setMenuStage("ingredients");

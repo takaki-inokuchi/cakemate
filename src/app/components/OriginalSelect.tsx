@@ -75,7 +75,7 @@ const OriginalSelect = () => {
 
       <button
         onClick={handleGenerate}
-        className="mt-4 p-4 text-xl rounded-full text-white bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 hover:from-purple-600 hover:via-pink-600 hover:to-red-600"
+        className="mt-4 p-4 cursor-pointer text-xl rounded-full text-white bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 hover:from-purple-600 hover:via-pink-600 hover:to-red-600"
       >
         ケーキ画像を作成
       </button>

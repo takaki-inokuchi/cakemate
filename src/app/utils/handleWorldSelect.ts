@@ -22,11 +22,30 @@ export const handleWorldSelect = async ({
     });
     const data = await response.json();
 
+    const isEmpty =
+      !data ||
+      (!data.sponge?.length &&
+        !data.toppings?.length &&
+        !data.cream?.length &&
+        !data.piping?.length);
+
+    if (isEmpty) {
+      setMenuStage("retry");
+      setIngredients({
+        sponge: [],
+        toppings: [],
+        cream: [],
+        piping: [],
+      });
+      return;
+    }
+
     setIngredients(data);
     setMenuStage("ingredients");
   } catch (err) {
     console.error(err);
     setMenuStage("error");
+
     setIngredients({
       sponge: [],
       toppings: [],
@@ -35,3 +54,4 @@ export const handleWorldSelect = async ({
     });
   }
 };
+

@@ -14,12 +14,12 @@ export const seasonImage = async ({
   selectedIngredients: IngredientsData;
   setMenuStage: Dispatch<SetStateAction<MenuStage>>;
   setCakeImage: (url: string | null) => void;
-  color?: string;
-  event?: string;
-  world?: string;
+  color?: string | null;
+  event?: string | null;
+  world?: string | null;
 }) => {
-  if (!selectedSeason) return;
-  
+  if (!selectedSeason && !color && !event && !world) return;
+
   const isEmpty =
     !selectedIngredients.sponge.length &&
     !selectedIngredients.toppings.length &&
