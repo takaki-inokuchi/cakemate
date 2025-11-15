@@ -1,3 +1,6 @@
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
@@ -38,20 +41,27 @@ export const POST = async (req: Request) => {
       );
     }
 
-    const imageUrl = response.data[0].url;
+    const image_base64 = response.data[0].b64_json;
 
-    if (!imageUrl) {
+    if (!image_base64) {
       return NextResponse.json(
-        { error: "画像生成に失敗しました" },
+        { error: "画像生成に失敗しました（base64なし）" },
         { status: 500 }
       );
     }
 
+    // base64 をブラウザでそのまま img src に使える形へ
+    const imageUrl = `data:image/png;base64,${image_base64}`;
+
     return NextResponse.json({ imageUrl });
-  } catch (err: any) {
-    console.error(err);
+  } catch (err: unknown) {
+    console.error("IMAGE API ERROR:", err);
+
+    const message =
+      err instanceof Error ? err.message : "Internal Server Error";
+
     return NextResponse.json(
-      { error: err.message || "Internal Server Error" },
+      { error: message },
       { status: 500 }
     );
   }

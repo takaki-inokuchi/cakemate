@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   description: "ケーキ画像を自由に創作できるアプリです。",
   icons: {
     icon: "/siteImage1.png",
-    shortcut: "/siteImage1-32x32.png",
+    shortcut: "/siteImage1.png",
     apple: "/siteImage1.png",
   },
 };

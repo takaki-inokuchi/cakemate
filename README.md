@@ -1,7 +1,6 @@
 # CakeMate
 
-CakeMateは、UI や CSS の使い方をわかりやすく説明するWebサイトです。
-
+CakeMate は、ユーザ―が簡単にケーキ画像を生成するアプリです。
 
 ## 目次
 
@@ -13,16 +12,18 @@ CakeMateは、UI や CSS の使い方をわかりやすく説明するWebサイ�
 6. [手順](#手順)
 7. [アプリデモ](#アプリデモ)
 
-
 ## デモ
-<!-- 本番サイト: [https://indiegame-hub.web.app/](https://indiegame-hub.web.app/) -->
+
+本番サイト: [https://cakemate.app/](https://cakemate-orcin.vercel.app//)
 
 ## 主な機能
+
 - ケーキ画像の生成
-- AIを使用した画像生成補助機能
+- AI を使用した画像生成補助機能
 - Vercel での公開
 
 ## 使用技術
+
 - **フロントエンド**: React, Next.js, TailwindCSS
 - **バッチ処理**: Node.js, ts-node
 - **CI/CD / 自動化**: GitHub Actions
@@ -33,15 +34,19 @@ CakeMateは、UI や CSS の使い方をわかりやすく説明するWebサイ�
 ## 環境構築
 
 ### 必要条件
+
 - Node.js 20+
 - npm 8+
 
 ### 手順
+
 1. リポジトリをクローン
+
 ```bash
 git clone https://github.com/takaki-inokuchi/cakemate.git
 cd cakemate
 ```
 
-<!-- ## アプリデモ
-![アプリデモ](./public/Animation.gif) -->
+## アプリデモ
+
+![アプリデモ](./public/CakeMate.gif)
